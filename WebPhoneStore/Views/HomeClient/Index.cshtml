@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    var lstNewProduct = (List<WebPhoneStore.Models.Product>)ViewBag.NewProduct;
+    var lstSlides = (List<WebPhoneStore.Models.Slide>)ViewBag.lstSlides;
+    var lstBlog = (List<WebPhoneStore.Models.Content>)ViewBag.lstBlog;
+    var lstAccount = (List<WebPhoneStore.Models.User>)ViewBag.lstAccount;
+}
+@section slide
+    {
+    <section class="slide1">
+        <div class="wrap-slick1">
+            <div class="slick1">
+                @foreach (var item in lstSlides)
+                {
+                    <div class="item-slick1 item1-slick1" style="background-image: url('/../../Content/Images/@item.Image');">
+                        <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+                            <h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
+                                @item.Description
+                            </h2>
+
+                            <span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="fadeInDown">
+                                Nguyễn Văn Huy
+                            </span>
+
+                            <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
+                                <!-- Button -->
+                                <a href="@item.Link" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+                                    Shop Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+
+            </div>
+        </div>
+    </section>
+}
+<!-- Slide1 -->
+<!-- Banner -->
+
+<section class="banner bgwhite p-t-40 p-b-40">
+    <div class="sec-title p-b-60">
+        <h3 class="m-text5 t-center">
+            Hãng điện thoại
+        </h3>
+    </div>
+    @{
+        Html.RenderAction("ProductCategory", "ClientProduct");
+    }
+</section>
+
+<!-- New Product -->
+<section class="newproduct bgwhite p-t-45 p-b-105">
+    <div class="container">
+        <div class="sec-title p-b-60">
+            <h3 class="m-text5 t-center">
+                Điện thoại mới
+            </h3>
+        </div>
+
+        <!-- Slide2 -->
+        <div class="wrap-slick2">
+            <div class="slick2">
+                @foreach (var item in lstNewProduct)
+                {
+                    //var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                    <div class="item-slick2 p-l-15 p-r-15">
+                        <!-- Block2 -->
+                        <div class="block2">
+                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+                                <img src="~/Content/Images/@item.Image" alt="@item.Name" style="height:250px;border: 1px solid #eaeaef;border-radius:10px;">
+                                
+                                <div class="block2-overlay trans-0-4">
+                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                    </a>
+
+                                    <div class="block2-btn-addcart w-size1 trans-0-4">
+                                        <!-- Button -->
+                                        <a href="@Url.Action("AddItem","Cart",new { productID=item.ID,quantity=1})" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Thêm vào giỏ</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block2-txt p-t-20">
+                                <a href="@Url.Action("Details","ClientProduct",new { ID=item.ID})" class="block2-name dis-block s-text3 p-b-5">
+                                    @item.Name
+                                </a>
+
+                                <span class="block2-price m-text6 p-r-5">
+                                    @(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Banner video -->
+<section class="parallax0 parallax100" style="background-image: url('/../../Content/Images/background.jpg');">
+    <div class="overlay0 p-t-190 p-b-200">
+        <div class="flex-col-c-m p-l-15 p-r-15">
+            <span class="m-text9 p-t-45 fs-20-sm">
+                Hoàn mỹ
+            </span>
+
+            <h3 class="l-text1 fs-35-sm">
+                Hiện đại
+            </h3>
+
+            <span class="btn-play s-text4 hov5 cs-pointer p-t-25" data-toggle="modal" data-target="#modal-video-01">
+                <i class="fa fa-play" aria-hidden="true"></i>
+                Play Video
+            </span>
+        </div>
+    </div>
+</section>
+
+
+<!-- Blog -->
+<section class="blog bgwhite p-t-94 p-b-65">
+    <div class="container">
+        <div class="sec-title p-b-52">
+            <h3 class="m-text5 t-center">
+                Bài viết
+            </h3>
+        </div>
+
+        <div class="row">
+            @foreach (var item in lstBlog)
+            {
+                <div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
+                    <!-- Block3 -->
+                    <div class="block3">
+                        <a href="@Url.Action("ClientBlogDetail","ClientBlog",new { ID=item.ID})" class="block3-img dis-block hov-img-zoom">
+                            <img src="~/Content/Images/@item.Image" style="height:276.96px;" alt="IMG-BLOG">
+                        </a>
+
+                        <div class="block3-txt p-t-14">
+                            <h4 class="p-b-7">
+                                <a href="@Url.Action("ClientBlogDetail","ClientBlog",new { ID=item.ID})" class="m-text11">
+                                    @item.Name
+                                </a>
+                            </h4>
+
+                            <span class="s-text6">By</span> <span class="s-text7">@item.CreateBy</span>
+                            <span class="s-text6">on</span> <span class="s-text7">@item.CreateDate</span>
+
+                            <p class="s-text8 p-t-16">
+                                @item.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</section>
+
+<!-- Instagram -->
+<section class="instagram p-t-20">
+    <div class="sec-title p-b-52 p-l-15 p-r-15">
+        <h3 class="m-text5 t-center">
+            Theo dõi chúng tôi trên Instagram
+        </h3>
+    </div>
+
+    <div class="flex-w">
+        @foreach (var item in lstAccount)
+        {
+            <div class="block4 wrap-pic-w">
+                <img src="~/Client/images/@item.AvatarName" alt="IMG-INSTAGRAM">
+
+                <a href="@Url.Action("ClientAbout","ClientAbout")" class="block4-overlay sizefull ab-t-l trans-0-4">
+                    <span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+                        <i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+                        <span class="p-t-2">39</span>
+                    </span>
+
+                    <div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+                        <p class="s-text10 m-b-15 h-size1 of-hidden">
+                           @(Html.Raw(@item.UserName+ "-"+@item.Address+"-"+@item.Phone+"-"+@item.Email ))                           
+                        </p>
+                        <span class="s-text9">
+                            @item.Name
+                        </span>
+                    </div>
+                </a>
+            </div>
+        }
+      
+    </div>
+</section>
+
+<!-- Shipping -->
+<section class="shipping bgwhite p-t-62 p-b-46">
+    <div class="flex-w p-l-15 p-r-15">
+        <div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+            <h4 class="m-text12 t-center">
+                Miễn phí vận chuyển khu vực Hà Nội
+            </h4>
+
+            <a href="#" class="s-text11 t-center">
+                Xem thêm
+            </a>
+        </div>
+
+        <div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
+            <h4 class="m-text12 t-center">
+                Trả lại trong 30 ngày
+            </h4>
+
+            <span class="s-text11 t-center">
+                Đổi lại sản phẩm trong vòng 30 ngày nếu có hỏng hóc
+            </span>
+        </div>
+
+        <div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+            <h4 class="m-text12 t-center">
+                Lịch mở
+            </h4>
+
+            <span class="s-text11 t-center">
+                Mọi ngày
+            </span>
+        </div>
+    </div>
+</section>
+
+

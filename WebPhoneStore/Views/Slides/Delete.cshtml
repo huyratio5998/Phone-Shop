@@ -1,0 +1,101 @@
+﻿@model WebPhoneStore.Models.Slide
+
+@{
+    ViewBag.Title = "Xóa slide";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có muốn xóa "@Model.Image" ?</h3>
+<div class="modal-body">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img src="~/Content/Images/@Model.Image" style="width:400px;height:200px;" alt="@Model.Image" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Link)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifileDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifileDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifileBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifileBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+   
+</div>
+<div class="modal-footer">
+    <div class="form-group">
+        <div class="col-md-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Trở lại", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

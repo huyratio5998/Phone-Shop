@@ -1,0 +1,129 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Category>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách category";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm("Index", "Categories", FormMethod.Get))
+{
+<fieldset>
+    <table style="width:70%">
+        <tr>
+            <td width="10%">Từ khóa</td>
+            <td  width="30%">@Html.TextBox("tukhoa", ViewBag.CurrentString as string, new { @class = "form-control" })</td>
+            @*<td  width="10%">Ngày tạo</td>
+            <td  width="30%">@Html.TextBox("ngaytao", ViewBag.CurrentDate as string, new { @class = "form-control" })</td>*@
+            <td  width="20%">
+                <input type="submit" name="btnSearch" value="Search" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class="btn btn-primary"})
+</p>
+<div class="box-body">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.SortName, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                MetaData
+            </th>
+            <th>
+                ParentID
+            </th>
+            <th>
+                DisplayOrder
+            </th>
+            <th>
+                @Html.ActionLink("SeoTitle", "Index", new { sortOrder = ViewBag.SeoTitle, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                @Html.ActionLink("CreateDate", "Index", new { sortOrder = ViewBag.CreateDate, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                @Html.ActionLink("CreateBy", "Index", new { sortOrder = ViewBag.CreateBy, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                @Html.ActionLink("ModifileDate", "Index", new { sortOrder = ViewBag.ModifileDate, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                @Html.ActionLink("ModifileBy", "Index", new { sortOrder = ViewBag.ModifileBy, tukhoa = ViewBag.CurrentString, ngaytao = ViewBag.CurrentDate })
+            </th>
+            <th>
+                MetaKeyword
+            </th>
+            <th>
+                MetaDescription
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                ShowOnHome
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaData)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeoTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifileDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifileBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaKeyword)
+                </td>
+                <td>
+                    @Html.Raw(item.MetaDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowOnHome)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CurrentString = ViewBag.CurrentString, sortOrder = ViewBag.CurrentSort }))
+    </div>
+    </div>
+

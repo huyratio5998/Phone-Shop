@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Order>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <table style="width:100%">
+            <tr>
+                <td width="20%">Từ khóa</td>
+                <td width="40% ">@Html.TextBox("tukhoa", ViewBag.CurrentSearch as string, new { @class = "form-control" })</td>
+                <td width="40%">
+                    <input type="submit" name="btnSearch" value="Search" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+}
+    <h4>Bảng đặt hàng</h4>
+    <br />
+<table class="table table-bordered table-striped">
+    <tr>
+
+
+        <th>
+            ShipName
+        </th>
+        <th>
+            ShipMobile
+        </th>
+        <th>
+            ShipAddress
+        </th>
+        <th>
+            ShipEmail
+        </th>
+        <th>
+            CreateDate
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipMobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            <a href="@Url.Action("Index","OrderDetails",new { ID=item.ID})"><i class="qh-icon fa fa-eye bigger-130">Chi tiết</i></a>
+            |@Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+        </td>
+    </tr>
+    }
+
+</table>
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentSearch = ViewBag.CurrentSearch}))

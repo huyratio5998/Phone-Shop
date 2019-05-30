@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.OrderDetail>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var lstProduct = (List<WebPhoneStore.Models.Product>)ViewBag.lstProduct;
+}
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <table style="width:100%">
+            <tr>
+                <td width="20%">Từ khóa</td>
+                <td width="40% ">@Html.TextBox("tukhoa", ViewBag.CurrentSearch as string, new { @class = "form-control" })</td>
+                <td width="40%">
+                    <input type="submit" name="btnSearch" value="Search" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+}
+    <p>
+        @Html.ActionLink("Trở lại", "Index","Orders",null, new { @class = "btn btn-primary" })
+    </p>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Product</th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Total Prices
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @foreach (var k in lstProduct)
+                {
+                    if (item.ProductID == k.ID)
+                    {
+                        @Html.DisplayFor(p => k.Name)
+                    }
+                }                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @((item.Quantity * item.Price.GetValueOrDefault(0)))
+            </td>
+            <td>           
+                <a href="@Url.Action("Delete","OrderDetails",new { productID = item.ProductID, orderID = ViewBag.OrderID})"><i class="qh-icon fa fa-trash-o bigger-130">Xóa</i></a>                
+            </td>
+        </tr>
+    }
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentSearch = ViewBag.CurrentSearch, orderID=ViewBag.OrderID }))

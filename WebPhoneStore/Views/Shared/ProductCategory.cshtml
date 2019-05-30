@@ -1,0 +1,92 @@
+﻿@model List<WebPhoneStore.Models.CategoryProduct>
+@{
+    var Product = (List<WebPhoneStore.Models.Product>)ViewBag.lstProduct;
+}
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+            @foreach (var item in Model)
+            {
+                <!-- block1 -->
+                if (item.DisplayOrder <= 3)
+                {
+                    <div class="block1 hov-img-zoom pos-relative m-b-30">
+                        @foreach (var k in Product)
+                        {
+                            if (k.CategoryID == item.ID)
+                            {
+                                <img src="~/Content/Images/@k.Image" alt="IMG-BENNER" style="border: 1px solid #eaeaef;border-radius:10px;">
+                                break;
+                            }
+
+                        }
+                        @*<img src="~/Client/images/banner-02.jpg" alt="IMG-BENNER">*@
+                        <div class="block1-wrapbtn w-size2">
+                            <!-- Button -->
+                            <a href="@Url.Action("Index","ClientProduct",new { CID=item.ID})" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+                                @item.Name
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+            @foreach (var item in Model)
+            {
+                <!-- block1 -->
+                if (item.DisplayOrder > 3 && item.DisplayOrder <= 6)
+                {
+                    <div class="block1 hov-img-zoom pos-relative m-b-30">
+                        @foreach (var k in Product)
+                        {
+                            if (k.CategoryID == item.ID)
+                            {
+                                <img src="~/Content/Images/@k.Image" alt="IMG-BENNER" style="border: 1px solid #eaeaef;border-radius:10px;">
+                                break;
+                            }
+
+                        }
+                        @*<img src="~/Client/images/banner-02.jpg" alt="IMG-BENNER">*@
+                        <div class="block1-wrapbtn w-size2">
+                            <!-- Button -->
+                            <a href="@Url.Action("Index","ClientProduct",new { CID=item.ID})" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+                                @item.Name
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+            @foreach (var item in Model)
+            {
+                <!-- block1 -->
+                if (item.DisplayOrder > 6 && item.DisplayOrder <= 9)
+                {
+                    <div class="block1 hov-img-zoom pos-relative m-b-30">
+                        @foreach (var k in Product)
+                        {
+                            if (k.CategoryID == item.ID)
+                            {
+                                <img src="~/Content/Images/@k.Image" alt="IMG-BENNER"style="border: 1px solid #eaeaef;border-radius:10px;">
+                                break;
+                            }
+
+                        }
+                        @*<img src="~/Client/images/banner-02.jpg" alt="IMG-BENNER">*@
+                        <div class="block1-wrapbtn w-size2">
+                            <!-- Button -->
+                            <a href="@Url.Action("Index","ClientProduct",new { CID=item.ID})" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+                                @item.Name
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,118 @@
+﻿@model WebPhoneStore.Models.About
+
+@{
+    ViewBag.Title = "Chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết "@Model.Name"</h2>
+
+<div class="modal-body">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Detail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifileDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifileDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifileBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifileBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaKeyword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaKeyword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        
+    </dl>
+</div>
+<div class="modal-footer">
+    <div class="form-group">
+        <div class="col-md-3">
+            @Html.ActionLink("Sửa", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Trở về", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>

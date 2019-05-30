@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.SystemConfig>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Hệ thống";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm()) {
+<fieldset>
+    <table style="width:70%">
+        <tr>
+            <td width="20%">Từ khóa</td>
+            <td width="30%">@Html.TextBox("tukhoa", ViewBag.CurrentSearch as string, new { @class = "form-control" })</td>
+            <td 10%><input type="submit" name="btnSearch" value="Search" class="btn btn-success" /></td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create",null,new { @class = "btn btn-primary" })
+</p>
+<div class="box-body">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                @Html.ActionLink("Name", "Index", new { tukhoa = ViewBag.CurrentSearch, sortOrder = ViewBag.SortName })
+            </th>
+            <th>
+                @Html.ActionLink("Type", "Index", new { tukhoa = ViewBag.CurrentSearch, sortOrder = ViewBag.SortType })
+            </th>
+            <th>
+                @Html.ActionLink("Value", "Index", new { tukhoa = ViewBag.CurrentSearch, sortOrder = ViewBag.SortValue })
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(p => item.ID)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                </td>
+            </tr>
+        }
+
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentSearch = ViewBag.CurrentSearch, sortOrder = ViewBag.CurrentSort }))
+    </div>

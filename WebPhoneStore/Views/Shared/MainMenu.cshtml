@@ -1,0 +1,27 @@
+﻿@model List<WebPhoneStore.Models.Menu>
+<div class="wrap_menu">
+    <nav class="menu">
+        <ul class="main_menu">
+            @foreach (var item in Model.OrderBy(x=>x.DisplayOrder))
+            {
+                if (item.Text.Equals("Trang chủ"))
+                {
+                    <li>
+                    <a href="@item.Link">Trang chủ</a>
+                    <ul class="sub_menu">
+                        <li><a href="@item.Link">Trang chủ</a></li>
+                        <li><a href="home-02.html">Trang 2</a></li>
+                        <li><a href="home-03.html">Trang 3</a></li>
+                    </ul>
+                        </li>
+                    
+                }
+                else
+                {
+                <li><a href="@item.Link">@item.Text</a></li>
+                }
+            }
+
+        </ul>
+    </nav>
+</div>

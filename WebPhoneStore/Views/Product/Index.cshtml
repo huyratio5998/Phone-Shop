@@ -1,0 +1,119 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Product>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    IEnumerable<WebPhoneStore.Models.CategoryProduct> lstCategoryProduct = ViewBag.lstPC;
+}
+
+
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+<fieldset>
+    <table style="width:100%" >
+        <tr>
+            <td style="width:10%">Tên sản phẩm</td>            
+            <td style="width:30%">
+                @Html.TextBox("searchName", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+            </td>
+
+            <td style="width:10%">Loại sản phẩm</td>
+            <td style="width:30%">
+                @Html.DropDownList("categoryID", (SelectList)ViewBag.ProductCategory, "---choose---", new { @class = "form-control" })
+            </td>
+
+            <td style="width:20%"><input type="submit" name="btnSearch" value="Search" class="btn btn-success" /></td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create",null, new { @class="btn btn-primary"})
+</p>
+
+    
+    <div class="box-body">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>
+                    Image
+                </th>
+
+                <th>
+                    Code
+                </th>
+                <th >
+                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSort, searchName = ViewBag.CurrentFilter, categoryID = ViewBag.CurrentSelect },new { @class= "glyphicon glyphicon-sort-by-attributes" })
+                </th>
+                <th>
+                    Price
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    CreateDate
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/Content/Images/@item.Image" width="150" height="150" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @foreach(var i in lstCategoryProduct)
+                        {
+                            if (i.ID == item.CategoryID)
+                            {
+                                @Html.DisplayFor(modelItem=>i.Name)
+                            }
+                        }                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |  
+                        @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter, sortOrder = ViewBag.CurrentSort, categoryID = ViewBag.CurrentSelect }))
+        </div>
+        </div>

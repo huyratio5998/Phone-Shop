@@ -1,0 +1,87 @@
+﻿@model  PagedList.IPagedList<WebPhoneStore.Models.Feedback>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách Feedbacks";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Feedbacks", FormMethod.Get))
+{
+    <fieldset>
+        <table style="width:60%;">
+            <tr>
+                <td width="10%">Từ khóa</td>
+                <td width="40%">@Html.TextBox("tukhoa", ViewBag.CurrentSearch as string, new { @class = "form-control" })</td>
+                <td width="10%"><input type="submit" name="btnSearch" value="Search" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="box-body">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.SortName, tukhoa = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.SortEmail, tukhoa = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Content
+            </th>
+            <th>
+                @Html.ActionLink("CreateDate", "Index", new { sortOrder = ViewBag.SortDate, tukhoa = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.SortStatus, tukhoa = ViewBag.CurrentSearch })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.Raw(item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                </td>
+            </tr>
+            
+        }
+
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentSearch = ViewBag.CurrentSearch, sortOrder = ViewBag.CurrentSort }))
+    </div>

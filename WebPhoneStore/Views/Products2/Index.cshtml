@@ -1,0 +1,133 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Product>
+  @using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Index</h2>
+@using (Html.BeginForm("Index", "Products2", FormMethod.Get)) {
+<fieldset>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>@Html.TextBox("name", ViewBag.CurrentName as string, new { @class = "form-control" })</td>
+            <td>Code</td>
+            @*viewbang.currentcode tuong duong voi gan code=viewbang.currentcode*@
+            <td>@Html.TextBox("code", ViewBag.CurrentCode as string, new { @class = "form-control" })</td>
+            <td>ProductCategory</td>
+            <td>@Html.DropDownList("categoryID", (SelectList)ViewBag.ProductCategory, "---choose---", new { @class = "form-control" })</td>
+            <td><input type="submit" name="btnSearch" value="Search" /></td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        @*luu du lieu tim kiem trong khi sort : name, code, categoryid*@
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder=ViewBag.SortName, name=ViewBag.CurrentName, code=ViewBag.CurrentCode, categoryID = ViewBag.CurrentSelect })
+        </th>
+        <th>
+            @Html.ActionLink("Code", "Index", new { sortOrder=ViewBag.SortCode, code=ViewBag.CurrentCode, name = ViewBag.CurrentName, categoryID = ViewBag.CurrentSelect })
+        </th>
+       
+        <th>
+            Description
+        </th>
+        <th>
+            Image
+        </th>
+        
+        <th>
+            Price
+        </th>
+        <th>
+            Promotion Price
+        </th>
+        <th>
+            IncludeVAT
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Category
+        </th>              
+        <th>
+            CreateDate
+        </th>
+        <th>
+            CreateBy
+        </th>
+      
+       
+        <th>
+        Status
+        </th>
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>           
+            <img src="~/Content/Images/@item.Image"  width="120" height="120" alt="Image" />
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PromotionPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncludeVAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryID)
+        </td>
+      
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateBy)
+        </td>
+       
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+      
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+@*cau hinh page : page 1 of 2;*@
+Page @(Model.PageCount<Model.PageNumber?0: Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model,page=>Url.Action("Index",new {page,sortOrder=ViewBag.CurrentSort,currentName=ViewBag.CurrentName, currentCode=ViewBag.CurrentCode, categoryID=ViewBag.CurrentSelect }))
+@*tao phan trang, next 1 page la 1 action tra ve index, page. truyen theo object: page; luu gia tri
+thao tac khi chuyen trang: sortorder, name, code,categoryid*@

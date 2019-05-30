@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Content>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách Nội dung";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm("Index", "Contents", FormMethod.Get))
+{
+<fieldset>
+    <table style="width:100%">
+        <tr>
+            <td style="width:10%">Từ khóa</td>
+            <td style="width:30%">@Html.TextBox("name", ViewBag.CurrentName as string, new { @class = "form-control" })</td>
+            <td style="width:10%">Loại sản phẩm</td>
+            <td style="width:30%">@Html.DropDownList("categoryID", (SelectList)ViewBag.lstCP, "---choose---", new { @class = "form-control" })</td>
+            <td style="width:15%"><input type="submit" name="btnsearch" value="Search" class="btn btn-success" /></td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create",null,new { @class="btn btn-primary"})
+</p>
+<div class="box-body">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th style="width:10%">
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.SortName, name = ViewBag.CurrentName, categoryID = ViewBag.CurrentSelect })
+            </th>
+
+            <th style="width:30%">
+                Description
+            </th>
+            <th style="width:20%">
+                Image
+            </th>
+            <th style="width:10%">
+                CategoryID
+            </th>
+            <th>
+                @Html.ActionLink("CreateDate", "Index", new { sortOrder = ViewBag.SortDate, name = ViewBag.CurrentName, categoryID = ViewBag.CurrentSelect })
+            </th>
+            <th style="width:10%">
+                CreateBy
+            </th>
+
+
+            <th style="width:5%">
+                Status
+            </th>
+
+            <th style="width:15%"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <img src="~/Content/Images/@item.Image" alt="ImageName" width="120" height="120" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryID)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateBy)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                </td>
+            </tr>            
+        }
+
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentName = ViewBag.CurrentName, categoryID = ViewBag.CurrentSelect }))
+    </div>

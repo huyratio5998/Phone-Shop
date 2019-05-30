@@ -1,0 +1,53 @@
+﻿@model PagedList.IPagedList<WebPhoneStore.Models.Tag>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Danh sách thẻ tag";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm()) {
+
+<fieldset>
+    <table style="width:100%">
+        <tr>
+            <td width="20%">Từ khóa</td>
+            <td width="40% ">@Html.TextBox("tukhoa", ViewBag.CurrentSearch as string, new { @class = "form-control" })</td>
+            <td width="40%">
+                <input type="submit" name="btnSearch" value="Search" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create",null,new { @class = "btn btn-primary" })
+</p>
+<div class="box-body">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th> @Html.ActionLink("ID", "Index", new { sortOrder = ViewBag.SortID, tukhoa = ViewBag.CurrentSearch })</th>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.SortName, tukhoa = ViewBag.CurrentSearch })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(p => item.ID)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "qh-icon fa fa-pencil bigger-130" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ID }, new { @class = "qh-icon fa fa-eye bigger-130" })  |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "qh-icon fa fa-trash-o bigger-130" })
+                </td>
+            </tr>
+        }
+
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentSearch = ViewBag.CurrentSearch, sortOrder = ViewBag.CurrentSort }))
+    </div>
